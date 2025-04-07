@@ -22,6 +22,8 @@ const SignIn = () => {
         credentials: "include",
         body: JSON.stringify({ email, password }),
       });
+
+      console.log("Login Response:", response); // Log full response object
   
       if (!response.ok) {
         const errorData = await response.json();
@@ -32,6 +34,7 @@ const SignIn = () => {
       if (!data.token) {
         throw new Error("No token received from server");
       }
+      console.log("Login Response Body:", data); // Log body content
   
       // ✅ Store token first
       localStorage.setItem("token", data.token);
@@ -40,6 +43,7 @@ const SignIn = () => {
       fetchUserDetails();
   
     } catch (err) {
+      console.error("Login Error:", err); // Log error clearly
       setError(err.message);
     } finally {
       setLoading(false);

@@ -28,7 +28,7 @@ import Dashboard from "./components/Dashboard";
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/admin">
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
