@@ -1,0 +1,368 @@
+/* ============================= */
+/* General Styling */
+/* ============================= */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+h1, h2 {
+  text-align: center;
+  font-weight: bold;
+  color:#0A1050;
+  margin-bottom: 20px;
+}
+
+.heading {
+  text-align: left;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 15px;
+}
+
+/* ============================= */
+/* Dashboard Layout */
+/* ============================= */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 250px;
+  background-color: #070D34;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.sidebar .logo img {
+  height: 30px;
+  width: auto;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sidebar ul {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+}
+
+.sidebar li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%; /* Ensure full width for better alignment */
+  padding: 10px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-align: center;
+}
+
+.sidebar li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Main Content Area */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 250px;
+  overflow-y: auto;
+  background: #070D34;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================= */
+/* Responsive Design */
+/* ============================= */
+/* @media (max-width: 1024px) {
+  .dashboard-container {
+      flex-direction: column;
+  }
+  .sidebar {
+      width: 100%;
+      height: auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+      border-right: none;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  }
+  .main-content {
+      margin-left: 0;
+      padding-top: 80px;
+  }
+  .sidebar ul {
+      flex-direction: column;
+      gap: 10px;
+  }
+} */
+
+@media (max-width: 768px) {
+ 
+  .sidebar ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .sidebar li {
+    width: auto; /* Allow items to adjust */
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+      width: 100%;
+      height: auto;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 15px 10px;
+  }
+  .sidebar ul {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap;
+  }
+  
+  .sidebar li {
+    width: auto; /* Allow items to adjust based on content */
+    flex-shrink: 0; /* Prevent items from squishing */
+  }
+}
+
+/* ============================= */
+/* Shared Content Styles */
+/* ============================= */
+.content, .blog-grid, .portfolio-grid, .testimonials-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.blog-card, .portfolio-card, .testimonial-card {
+  flex: 1 1 300px;
+  max-width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.blog-card:hover, .portfolio-card:hover, .testimonial-card:hover {
+  transform: scale(1.02);
+}
+
+/* ============================= */
+/* Form Styling */
+/* ============================= */
+.form-container {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 550px;
+  margin: 30px auto;
+  text-align: center;
+}
+
+.form-container input,
+.form-container textarea,
+.form-container select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.form-container textarea {
+  height: 120px;
+  resize: none;
+}
+
+.form-container input:focus,
+.form-container textarea:focus,
+.form-container select:focus {
+  border-color: #1abc9c;
+  outline: none;
+  box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
+}
+.submit-btn{
+  width: 100%;
+  background-color: #1abc9c;
+  color:#3e4374;
+  border-radius: 10px;
+  padding: 10px;
+}
+.permissions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between sections */
+}
+
+.permissions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between each permission item */
+}
+
+.permission-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%; /* Ensures full width */
+}
+
+.permission-label {
+  flex: 1; /* Makes sure labels take equal space */
+  text-align: left;
+}
+
+.permission-item input {
+  flex: 0 0 40px; /* Fixed size for checkboxes to align properly */
+}
+
+/* ============================= */
+/* Blog tag checkboxes */
+/* ============================= */
+.tags-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between sections */
+}
+
+.tags-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between tag items */
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%; /* Ensures full width alignment */
+}
+
+.tag-label {
+  flex: 1; /* Makes sure labels take equal space */
+  text-align: left;
+}
+
+.tag-item input {
+  flex: 0 0 20px; /* Fixed size for checkboxes to align properly */
+}
+
+/* ============================= */
+/* Button Styling */
+/* ============================= */
+.create-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 108px;
+  height: 32px;
+  background: #FFFFFF;
+  border-radius: 11px;
+  border: none;
+  color: #070D34;
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+  padding: 10px 0;
+}
+
+.create-btn:hover {
+  background: #0A1050;
+  color: #FFFFFF;
+}
+/* ============================= */
+/* User List component Styling */
+/* ============================= */
+.user-table {
+  width: 80%; /* Adjusts the table width */
+  max-width: 1000px; /* Prevents it from getting too wide */
+  margin: 20px auto; /* Centers the table */
+  border-collapse: collapse;
+  color: white;
+  text-align: left;
+  border: 2px solid white;
+}
+
+.user-table th, 
+.user-table td {
+  border: 2px solid white;
+  padding: 10px;
+  text-align: center; /* Centers text in cells */
+}
+
+.user-table th {
+  background-color: #333;
+  font-size: 18px; /* Makes headers more readable */
+  padding: 12px;
+}
+
+.user-table td {
+  font-size: 16px;
+}
+.delete-btn{
+  color: red;
+  font-weight: bold;
+}
+.delete-btn:hover{
+  color: white;
+  background-color: red;
+  padding: 5px;
+  border-radius: 5px;
+}
