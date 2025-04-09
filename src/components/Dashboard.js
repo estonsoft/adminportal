@@ -50,7 +50,7 @@ const Dashboard = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://213.210.37.58/users/", {
+      const response = await fetch("https://admin.estonsoft.com/users/", {
         method: "GET",
         headers: {
           Authorization: token,

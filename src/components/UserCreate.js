@@ -54,7 +54,7 @@ const UserCreate = ({ token, fetchUsers, setActiveSection }) => {
     }
 
     try {
-      const response = await fetch("http://213.210.37.58/users/", {
+      const response = await fetch("https://admin.estonsoft.com/users/", {
         method: "POST",
         headers: {
           Authorization: token,

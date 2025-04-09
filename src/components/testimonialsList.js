@@ -27,7 +27,7 @@ const TestimonialsList = () => {
 
     const fetchTestimonials = async () => {
       try {
-        const response = await fetch("http://213.210.37.58/testimonials/", {
+        const response = await fetch("https://admin.estonsoft.com/testimonials/", {
           headers: {
             Authorization: token,
           },

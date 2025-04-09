@@ -62,7 +62,7 @@ const BlogCreate = () => {
     }
 
     try {
-      const response = await fetch("http://213.210.37.58/blogs", {
+      const response = await fetch("https://admin.estonsoft.com/blogs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

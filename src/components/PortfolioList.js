@@ -23,7 +23,7 @@ const PortfolioList = () => {
 
     const fetchPortfolios = async () => {
       try {
-        const response = await fetch("http://213.210.37.58/portfolios/", {
+        const response = await fetch("https://admin.estonsoft.com/portfolios/", {
           headers: {
             Authorization: token,
           },
@@ -51,7 +51,7 @@ const PortfolioList = () => {
     }
 
       try {
-        const response = await fetch(`http://213.210.37.58/portfolios/${portfolioId}`, {
+        const response = await fetch(`https://admin.estonsoft.com/portfolios/${portfolioId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

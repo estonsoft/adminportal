@@ -23,7 +23,7 @@ const BlogList = () => {
 
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://213.210.37.58/blogs/", {
+        const response = await fetch("https://admin.estonsoft.com/blogs/", {
           headers: {
             Authorization: token,
           },
@@ -52,7 +52,7 @@ const BlogList = () => {
     }
 
       try {
-        const response = await fetch(`http://213.210.37.58/blogs/${blogId}`, {
+        const response = await fetch(`https://admin.estonsoft.com/blogs/${blogId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

@@ -71,4 +71,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 to locally build run this command
-$env:REACT_APP_API_BASE_URL="http://213.210.37.58"
+$env:REACT_APP_API_BASE_URL="https://admin.estonsoft.com"

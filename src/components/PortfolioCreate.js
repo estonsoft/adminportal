@@ -36,7 +36,7 @@ const PortfolioCreate = () => {
     }
 
     try {
-      const response = await fetch("http://213.210.37.58/portfolios/", {
+      const response = await fetch("https://admin.estonsoft.com/portfolios/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
