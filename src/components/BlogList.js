@@ -6,7 +6,7 @@ import "./styles.css";
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
-   const [permissions, setPermissions] = useState([]);
+  const [permissions, setPermissions] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -51,35 +51,42 @@ const BlogList = () => {
       return;
     }
 
-      try {
-        const response = await fetch(`https://admin.estonsoft.com/blogs/${blogId}`, {
+    try {
+      const response = await fetch(
+        `https://admin.estonsoft.com/blogs/${blogId}`,
+        {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             Authorization: token,
           },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to delete blog.");
         }
+      );
 
-        alert("✅ Blog deleted successfully!");
-        setBlogs(blogs.filter((blog) => blog.id !== blogId));
-      } catch (err) {
-        alert(err.message);
+      if (!response.ok) {
+        throw new Error("Failed to delete blog.");
       }
+
+      alert("✅ Blog deleted successfully!");
+      setBlogs(blogs.filter((blog) => blog.id !== blogId));
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (
     <div className="blog-container">
       <h1 className="heading">Blogs</h1>
-      
+
       {/* Toggle "Create Blog" Button */}
       {hasPermission("create_blog") && (
-      <button className="create-btn" onClick={() => setShowCreateForm(!showCreateForm)}>
-        {showCreateForm ? "➖ Close Blog Form" : "📝 Create Blog"}
-      </button>)}
+        <button
+          className="create-btn"
+          onClick={() => setShowCreateForm(!showCreateForm)}
+        >
+          {showCreateForm ? "➖ Close Blog Form" : "📝 Create Blog"}
+        </button>
+      )}
 
       {/* Show BlogCreate form when toggled */}
       {showCreateForm && <BlogCreate />}
@@ -91,18 +98,43 @@ const BlogList = () => {
           {blogs.map((blog) => (
             <div key={blog.id} className="blog-card">
               <img src={blog.image} alt={blog.title} className="blog-image" />
-              <h2 className="blog-title">
-                {blog.title}
-              </h2>
+              <h2 className="blog-title">{blog.title}</h2>
               <p className="blog-paragraph">{blog.paragraph}</p>
-              <p><strong>Author:</strong> {blog.author}</p>
-              <p><strong>Published on:</strong> {new Date(blog.publishDate).toLocaleDateString()}</p>
-              <p><strong>Tags:</strong> {blog.tags.join(", ")}</p>
+
+              {/* Author Details */}
+              <div className="author-section">
+                {blog.authorImage && (
+                  <img
+                    src={blog.authorImage}
+                    alt={blog.authorName}
+                    className="author-image"
+                  />
+                )}
+                <div>
+                  <p>
+                    <strong>Author:</strong> {blog.authorName}
+                  </p>
+                  {blog.authorDesignation && (
+                    <p>
+                      <em>{blog.authorDesignation}</em>
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <p>
+                <strong>Published on:</strong>{" "}
+                {new Date(blog.publishDate).toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Tags:</strong> {blog.tags.join(", ")}
+              </p>
+
               <div className="blog-actions">
-                {/* <button onClick={() => navigate(`/blogs/${blog.id}`)} className="edit-btn">
-                  View
-                </button> */}
-                <button onClick={() => handleDelete(blog.id)} className="delete-btn">
+                <button
+                  onClick={() => handleDelete(blog.id)}
+                  className="delete-btn"
+                >
                   Delete
                 </button>
               </div>

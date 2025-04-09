@@ -10,7 +10,9 @@ const BlogCreate = () => {
     image: "",
     paragraph: "",
     content: "",
-    author: "",
+    authorName: "",
+    authorImage: "",
+    authorDesignation: "",
     tags: [],
     publishDate: "",
   });
@@ -54,7 +56,9 @@ const BlogCreate = () => {
       !blog.title ||
       !blog.paragraph ||
       !blog.content ||
-      !blog.author ||
+      !blog.authorName ||
+      !blog.authorImage ||
+      !blog.authorDesignation ||
       !blog.publishDate
     ) {
       setError("All fields are required.");
@@ -76,7 +80,7 @@ const BlogCreate = () => {
       }
 
       alert("✅ Blog Created Successfully!");
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }
@@ -118,12 +122,37 @@ const BlogCreate = () => {
         />
         <input
           type="text"
-          name="author"
-          placeholder="Author"
-          value={blog.author}
+          name="authorName"
+          placeholder="Author Name"
+          value={blog.authorName}
           onChange={handleChange}
           required
         />
+
+        <input
+          type="text"
+          name="authorDesignation"
+          placeholder="Author Designation"
+          value={blog.authorDesignation}
+          onChange={handleChange}
+        />
+
+        <input
+          type="file"
+          name="authorImage"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                setBlog({ ...blog, authorImage: reader.result });
+              };
+              reader.readAsDataURL(file);
+            }
+          }}
+        />
+
         <input
           type="date"
           name="publishDate"
@@ -132,24 +161,25 @@ const BlogCreate = () => {
           required
         />
 
-<div className="tags-container">
-  <label>Tags:</label>
-  <div className="tags-list">
-    {availableTags.map((tag) => (
-      <div key={tag} className="tag-item">
-        <label className="tag-label" htmlFor={`tag-${tag}`}>{tag}</label>
-        <input
-          id={`tag-${tag}`}
-          type="checkbox"
-          value={tag}
-          checked={blog.tags.includes(tag)}
-          onChange={() => handleTagChange(tag)}
-        />
-      </div>
-    ))}
-  </div>
-</div>
-
+        <div className="tags-container">
+          <label>Tags:</label>
+          <div className="tags-list">
+            {availableTags.map((tag) => (
+              <div key={tag} className="tag-item">
+                <label className="tag-label" htmlFor={`tag-${tag}`}>
+                  {tag}
+                </label>
+                <input
+                  id={`tag-${tag}`}
+                  type="checkbox"
+                  value={tag}
+                  checked={blog.tags.includes(tag)}
+                  onChange={() => handleTagChange(tag)}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
 
         <button type="submit" className="submit-btn">
           Create Blog
