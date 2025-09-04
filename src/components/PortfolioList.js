@@ -102,9 +102,11 @@ const PortfolioList = () => {
                 {/* <button onClick={() => handleEdit(portfolio.id)} className="edit-btn">
                   Edit
                 </button> */}
-                <button onClick={() => handleDelete(portfolio.id)} className="delete-btn">
-                  Delete
-                </button>
+                {hasPermission("delete_portfolio") && (
+                  <button onClick={() => handleDelete(portfolio.id)} className="delete-btn">
+                    Delete
+                  </button>
+                )}
               </div>
             </div>
           ))}

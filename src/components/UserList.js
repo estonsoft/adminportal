@@ -117,9 +117,11 @@ const UserList = () => {
                 <td>{user.email}</td>
                 <td>{user.permissions ? user.permissions.join(", ") : "No permissions"}</td>
                 <td>
-                  <button onClick={() => handleDelete(user.id)} className="delete-btn">
-                    Delete
-                  </button>
+                  {hasPermission("delete_user") && (
+                    <button onClick={() => handleDelete(user.id)} className="delete-btn">
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

@@ -131,12 +131,14 @@ const BlogList = () => {
               </p>
 
               <div className="blog-actions">
-                <button
-                  onClick={() => handleDelete(blog.id)}
-                  className="delete-btn"
-                >
-                  Delete
-                </button>
+                {hasPermission("delete_blog") && (
+                  <button
+                    onClick={() => handleDelete(blog.id)}
+                    className="delete-btn"
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             </div>
           ))}
