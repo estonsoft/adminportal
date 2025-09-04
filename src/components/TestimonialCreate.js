@@ -42,7 +42,7 @@ const TestimonialCreate = () => {
     }
 
     try {
-      const response = await fetch("https://admin.estonsoft.com/testimonials/", {
+      const response = await fetch("http://localhost/new.php/testimonials", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

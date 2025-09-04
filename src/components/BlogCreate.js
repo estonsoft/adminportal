@@ -66,7 +66,9 @@ const BlogCreate = () => {
     }
 
     try {
-      const response = await fetch("https://admin.estonsoft.com/blogs", {
+      console.log("Sending blog data:", blog);
+      
+      const response = await fetch("http://localhost/estonsoft-api/new.php/blogs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +78,9 @@ const BlogCreate = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create blog.");
+        const errorData = await response.text();
+        console.error("Error response:", errorData);
+        throw new Error(`Failed to create blog: ${response.status} - ${errorData}`);
       }
 
       alert("✅ Blog Created Successfully!");

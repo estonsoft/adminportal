@@ -17,16 +17,6 @@ const PortfolioCreate = () => {
     setPortfolio({ ...portfolio, [e.target.name]: e.target.value });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPortfolio({ ...portfolio, image: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +26,9 @@ const PortfolioCreate = () => {
     }
 
     try {
-      const response = await fetch("https://admin.estonsoft.com/portfolios/", {
+      console.log("Sending portfolio data:", portfolio);
+      
+      const response = await fetch("http://localhost/new.php/portfolios", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +38,9 @@ const PortfolioCreate = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create portfolio.");
+        const errorData = await response.text();
+        console.error("Error response:", errorData);
+        throw new Error(`Failed to create portfolio: ${response.status} - ${errorData}`);
       }
 
       alert("✅ Portfolio Created Successfully!");
@@ -63,7 +57,7 @@ const PortfolioCreate = () => {
       <form onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Title" value={portfolio.title} onChange={handleChange} required />
         <textarea name="description" placeholder="Description" value={portfolio.description} onChange={handleChange} required />
-        <input type="file" name="image" accept="image/*" onChange={handleFileChange} required />
+        <input type="url" name="image" placeholder="Image URL" value={portfolio.image} onChange={handleChange} required />
         <input type="url" name="link" placeholder="Portfolio Link" value={portfolio.link} onChange={handleChange} required />
         <button type="submit" className="submit-btn">Create Portfolio</button>
       </form>

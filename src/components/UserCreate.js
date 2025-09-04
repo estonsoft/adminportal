@@ -2,21 +2,21 @@ import React, { useState } from "react";
 
 const availablePermissions = [
   "create_user",
-  "delete_user",
-  "update_user",
   "view_users",
+  "update_user",
+  "delete_user",
   "create_blog",
   "update_blog",
   "delete_blog",
-  "read_blog",
+  "view_blogs",
   "create_portfolio",
   "update_portfolio",
   "delete_portfolio",
-  "read_portfolio",
+  "view_portfolio",
   "create_testimonial",
   "update_testimonial",
   "delete_testimonial",
-  "read_testimonial",
+  "view__testimonial",
 ];
 
 const UserCreate = ({ token, fetchUsers, setActiveSection }) => {
@@ -54,7 +54,7 @@ const UserCreate = ({ token, fetchUsers, setActiveSection }) => {
     }
 
     try {
-      const response = await fetch("https://admin.estonsoft.com/users/", {
+      const response = await fetch("http://localhost/estonsoft-api/new.php/users", {
         method: "POST",
         headers: {
           Authorization: token,

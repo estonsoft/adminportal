@@ -23,7 +23,7 @@ const BlogList = () => {
 
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("https://admin.estonsoft.com/blogs/", {
+        const response = await fetch("http://localhost/estonsoft-api/new.php/blogs", {
           headers: {
             Authorization: token,
           },
@@ -53,7 +53,7 @@ const BlogList = () => {
 
     try {
       const response = await fetch(
-        `https://admin.estonsoft.com/blogs/${blogId}`,
+        `http://localhost/estonsoft-api/new.php/blogs/${blogId}`,
         {
           method: "DELETE",
           headers: {

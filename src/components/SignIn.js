@@ -16,10 +16,9 @@ const SignIn = () => {
     setLoading(true);
   
     try {
-      const response = await fetch("https://admin.estonsoft.com/auth/login/", {
+      const response = await fetch("http://localhost/new.php/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
@@ -31,12 +30,12 @@ const SignIn = () => {
       }
   
       const data = await response.json();
+      console.log("Login Response Body:", data);
+  
+      // ✅ Store token from response
       if (!data.token) {
         throw new Error("No token received from server");
       }
-      console.log("Login Response Body:", data); // Log body content
-  
-      // ✅ Store token first
       localStorage.setItem("token", data.token);
   
       // ✅ Now call `/me/` to fetch user details
@@ -54,13 +53,12 @@ const SignIn = () => {
   const fetchUserDetails = async () => {
     try {
       const token = localStorage.getItem("token");
-      const userResponse = await fetch("https://admin.estonsoft.com/auth/me/", {
+      const userResponse = await fetch("http://localhost/estonsoft-api/new.php/auth/me", {
         method: "GET",
         headers: {
-          "Authorization": `${token}`, 
+          "Authorization": token.trim(), 
           "Content-Type": "application/json",
         },
-        credentials: "include",
       });
   
       if (!userResponse.ok) {
