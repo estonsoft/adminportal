@@ -36,7 +36,7 @@ const UserList = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost/new.php/users", {
+      const response = await fetch("https://estonsoft.com/new.php/users", {
         method: "GET",
         headers: {
           Authorization: token,
@@ -71,7 +71,7 @@ const UserList = () => {
     }
 
       try {
-        const response = await fetch(`http://localhost/new.php/users/${userId}`, {
+        const response = await fetch(`https://estonsoft.com/new.php/users/${userId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -107,7 +107,7 @@ const UserList = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost/estonsoft-api/new.php/users/${editingUser.id}`, {
+      const response = await fetch(`https://estonsoft.com/new.php/users/${editingUser.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
