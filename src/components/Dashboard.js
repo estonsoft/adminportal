@@ -110,19 +110,19 @@ const Dashboard = () => {
                 {activeSection === "usersList" ? "👥 User" : "👥 User"}
               </li>
             )}
-            {hasPermission("read_blog") && (
+            {hasPermission("view_blogs") && (
               <li onClick={() => toggleSection("blog")}>
                 {activeSection === "blog" ? "➖ Blog" : "📝 Blog"}
               </li>
             )}
-            {hasPermission("read_portfolio") && (
+            {hasPermission("view_portfolio") && (
               <li onClick={() => toggleSection("portfolio")}>
                 {activeSection === "portfolio"
                   ? "➖ Portfolio"
                   : "📁 Portfolio"}
               </li>
             )}
-            {hasPermission("read_testimonial") && (
+            {hasPermission("view__testimonial") && (
               <li onClick={() => toggleSection("testimonial")}>
                 {activeSection === "testimonial"
                   ? "➖ Testimonial"

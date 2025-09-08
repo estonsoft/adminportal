@@ -1,6 +1,46 @@
 /* ============================= */
 /* General Styling */
 /* ============================= */
+
+/* Action Buttons Styling */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.edit-btn, .delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 60px;
+}
+
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+  color: white;
+  transform: translateY(-1px);
+}
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -357,7 +397,7 @@ h1, h2 {
   font-size: 16px;
 }
 .delete-btn{
-  color: red;
+  color: white;
   font-weight: bold;
 }
 .delete-btn:hover{
@@ -379,4 +419,60 @@ h1, h2 {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+/* Image label styling */
+.image-label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.blog-image-section {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.author-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Form image sections styling */
+.form-container .blog-image-section,
+.form-container .author-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.form-container .image-label {
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Form field styling */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }

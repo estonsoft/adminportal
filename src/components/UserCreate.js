@@ -2,21 +2,21 @@ import React, { useState } from "react";
 
 const availablePermissions = [
   "create_user",
-  "delete_user",
-  "update_user",
   "view_users",
+  "update_user",
+  "delete_user",
   "create_blog",
   "update_blog",
   "delete_blog",
-  "read_blog",
+  "view_blogs",
   "create_portfolio",
   "update_portfolio",
   "delete_portfolio",
-  "read_portfolio",
+  "view_portfolio",
   "create_testimonial",
   "update_testimonial",
   "delete_testimonial",
-  "read_testimonial",
+  "view__testimonial",
 ];
 
 const UserCreate = ({ token, fetchUsers, setActiveSection }) => {
@@ -54,7 +54,7 @@ const UserCreate = ({ token, fetchUsers, setActiveSection }) => {
     }
 
     try {
-      const response = await fetch("https://admin.estonsoft.com/users/", {
+      const response = await fetch("http://localhost/estonsoft-api/new.php/users", {
         method: "POST",
         headers: {
           Authorization: token,
@@ -86,30 +86,42 @@ const UserCreate = ({ token, fetchUsers, setActiveSection }) => {
     <form onSubmit={handleSubmit} className="form-container">
       <h2>Create User</h2>
       {error && <p className="error">{error}</p>}
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        required
-      />
+      
+      <div className="form-field">
+        <label className="field-label">Name</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter full name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      
+      <div className="form-field">
+        <label className="field-label">Email</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter email address"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      
+      <div className="form-field">
+        <label className="field-label">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+      </div>
 <div className="permissions-container">
   <label>Permissions:</label>
   <div className="permissions-list">
