@@ -86,30 +86,42 @@ const UserCreate = ({ token, fetchUsers, setActiveSection }) => {
     <form onSubmit={handleSubmit} className="form-container">
       <h2>Create User</h2>
       {error && <p className="error">{error}</p>}
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        required
-      />
+      
+      <div className="form-field">
+        <label className="field-label">Name</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter full name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      
+      <div className="form-field">
+        <label className="field-label">Email</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter email address"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      
+      <div className="form-field">
+        <label className="field-label">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+      </div>
 <div className="permissions-container">
   <label>Permissions:</label>
   <div className="permissions-list">

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles.css"; // Make sure to update CSS for horizontal layout
 import PortfolioCreate from "./PortfolioCreate";
+import PortfolioEdit from "./PortfolioEdit";
 
 const PortfolioList = () => {
   const [portfolios, setPortfolios] = useState([]);
   const [activeSection, setActiveSection] = useState(null);
    const [permissions, setPermissions] = useState([]);
+  const [editingPortfolio, setEditingPortfolio] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -43,10 +45,18 @@ const PortfolioList = () => {
     fetchPortfolios();
   }, [token]);
 
-  const hasPermission = (permission) => permissions.includes(permission);
+  const hasPermission = (permission) => {
+    console.log("Checking permission:", permission, "User permissions:", permissions);
+    return permissions.includes(permission);
+  };
   const handleDelete = async (portfolioId) => {
     if (!token) {
       alert("Unauthorized! Please login.");
+      return;
+    }
+
+    if (!hasPermission("delete_portfolio")) {
+      alert("You don't have permission to delete portfolios.");
       return;
     }
 
@@ -71,7 +81,57 @@ const PortfolioList = () => {
   };
 
   const handleEdit = (portfolioId) => {
-    navigate(`/portfolios/edit/${portfolioId}`);
+    if (!hasPermission("update_portfolio")) {
+      alert("You don't have permission to edit portfolios.");
+      return;
+    }
+    const portfolioToEdit = portfolios.find(portfolio => portfolio.id === portfolioId);
+    setEditingPortfolio(portfolioToEdit);
+  };
+
+  const handleUpdatePortfolio = async (updatedPortfolioData) => {
+    if (!token) {
+      alert("Unauthorized! Please login.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost/new.php/portfolios/${editingPortfolio.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify(updatedPortfolioData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to update portfolio.");
+      }
+
+      alert("✅ Portfolio updated successfully!");
+      setEditingPortfolio(null);
+      // Refresh portfolios
+      const fetchPortfolios = async () => {
+        try {
+          const response = await fetch("http://localhost/new.php/portfolios", {
+            headers: {
+              Authorization: token,
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setPortfolios(data);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchPortfolios();
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   const toggleSection = () => {
@@ -86,6 +146,16 @@ const PortfolioList = () => {
         {activeSection === "portfolioForm" ? "➖ Close Form" : "📁 Create Portfolio"}
       </button>)}
       {activeSection === "portfolioForm" && <PortfolioCreate />}
+      
+      {/* Show PortfolioEdit form when editing */}
+      {editingPortfolio && (
+        <PortfolioEdit
+          portfolio={editingPortfolio}
+          onUpdate={handleUpdatePortfolio}
+          onCancel={() => setEditingPortfolio(null)}
+        />
+      )}
+      
       {!token ? (
         <p>Please login to view portfolios.</p>
       ) : portfolios.length > 0 ? (
@@ -98,10 +168,12 @@ const PortfolioList = () => {
               <a href={portfolio.link} target="_blank" rel="noopener noreferrer" className="portfolio-link">
                 Visit Portfolio
               </a>
-              <div className="portfolio-actions">
-                {/* <button onClick={() => handleEdit(portfolio.id)} className="edit-btn">
-                  Edit
-                </button> */}
+              <div className="portfolio-actions action-buttons">
+                {hasPermission("update_portfolio") && (
+                  <button onClick={() => handleEdit(portfolio.id)} className="edit-btn">
+                    Edit
+                  </button>
+                )}
                 {hasPermission("delete_portfolio") && (
                   <button onClick={() => handleDelete(portfolio.id)} className="delete-btn">
                     Delete

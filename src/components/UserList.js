@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserCreate from "./UserCreate"; // Import UserCreate component
+import UserEdit from "./UserEdit"; // Import UserEdit component
 import "./styles.css"; // Import the CSS file
 
 const UserList = () => {
@@ -9,6 +10,7 @@ const UserList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [permissions, setPermissions] = useState([]);
   const [error, setError] = useState("");
+  const [editingUser, setEditingUser] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -20,7 +22,10 @@ const UserList = () => {
     fetchUsers(); // Fetch users on mount
   }, []);
 
-  const hasPermission = (permission) => permissions.includes(permission);
+  const hasPermission = (permission) => {
+    console.log("Checking permission:", permission, "User permissions:", permissions);
+    return permissions.includes(permission);
+  };
 
   // Function to fetch users
   const fetchUsers = async () => {
@@ -60,6 +65,11 @@ const UserList = () => {
       return;
     }
 
+    if (!hasPermission("delete_user")) {
+      alert("You don't have permission to delete users.");
+      return;
+    }
+
       try {
         const response = await fetch(`http://localhost/new.php/users/${userId}`, {
           method: "DELETE",
@@ -81,6 +91,44 @@ const UserList = () => {
       }
   };
 
+  const handleEdit = (userId) => {
+    if (!hasPermission("update_user")) {
+      alert("You don't have permission to edit users.");
+      return;
+    }
+    const userToEdit = users.find(user => user.id === userId);
+    setEditingUser(userToEdit);
+  };
+
+  const handleUpdateUser = async (updatedUserData) => {
+    if (!token) {
+      alert("Unauthorized! Please login.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost/estonsoft-api/new.php/users/${editingUser.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify(updatedUserData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to update user.");
+      }
+
+      alert("✅ User updated successfully!");
+      setEditingUser(null);
+      fetchUsers(); // Refresh list after update
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   return (
     <div>
       <h1 className="heading">Users</h1>
@@ -94,6 +142,15 @@ const UserList = () => {
 
       {/* Show UserCreate form when toggled */}
       {showCreateForm && <UserCreate token={token} fetchUsers={fetchUsers} setShowCreateForm={setShowCreateForm} />}
+
+      {/* Show UserEdit form when editing */}
+      {editingUser && (
+        <UserEdit
+          user={editingUser}
+          onUpdate={handleUpdateUser}
+          onCancel={() => setEditingUser(null)}
+        />
+      )}
 
       {error && <p className="error">{error}</p>}
       {isLoading ? (
@@ -117,11 +174,18 @@ const UserList = () => {
                 <td>{user.email}</td>
                 <td>{user.permissions ? user.permissions.join(", ") : "No permissions"}</td>
                 <td>
-                  {hasPermission("delete_user") && (
-                    <button onClick={() => handleDelete(user.id)} className="delete-btn">
-                      Delete
-                    </button>
-                  )}
+                  <div className="action-buttons">
+                    {hasPermission("update_user") && (
+                      <button onClick={() => handleEdit(user.id)} className="edit-btn">
+                        Edit
+                      </button>
+                    )}
+                    {hasPermission("delete_user") && (
+                      <button onClick={() => handleDelete(user.id)} className="delete-btn">
+                        Delete
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

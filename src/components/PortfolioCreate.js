@@ -17,10 +17,21 @@ const PortfolioCreate = () => {
     setPortfolio({ ...portfolio, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPortfolio({ ...portfolio, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!portfolio.title || !portfolio.description || !portfolio.link) {
+    if (!portfolio.title || !portfolio.description || !portfolio.image || !portfolio.link) {
       setError("All fields are required.");
       return;
     }
@@ -55,10 +66,52 @@ const PortfolioCreate = () => {
       <h2>Create Portfolio</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
-        <input type="text" name="title" placeholder="Title" value={portfolio.title} onChange={handleChange} required />
-        <textarea name="description" placeholder="Description" value={portfolio.description} onChange={handleChange} required />
-        <input type="url" name="image" placeholder="Image URL" value={portfolio.image} onChange={handleChange} required />
-        <input type="url" name="link" placeholder="Portfolio Link" value={portfolio.link} onChange={handleChange} required />
+        <div className="form-field">
+          <label className="field-label">Title</label>
+          <input 
+            type="text" 
+            name="title" 
+            placeholder="Enter portfolio title" 
+            value={portfolio.title} 
+            onChange={handleChange} 
+            required 
+          />
+        </div>
+        
+        <div className="form-field">
+          <label className="field-label">Description</label>
+          <textarea 
+            name="description" 
+            placeholder="Enter portfolio description" 
+            value={portfolio.description} 
+            onChange={handleChange} 
+            required 
+          />
+        </div>
+        
+        <div className="blog-image-section">
+          <label className="image-label">Portfolio Image</label>
+          <input 
+            type="file" 
+            name="image" 
+            accept="image/*"
+            onChange={handleFileChange}
+            required 
+          />
+        </div>
+        
+        <div className="form-field">
+          <label className="field-label">Portfolio Link</label>
+          <input 
+            type="url" 
+            name="link" 
+            placeholder="Enter portfolio link" 
+            value={portfolio.link} 
+            onChange={handleChange} 
+            required 
+          />
+        </div>
+        
         <button type="submit" className="submit-btn">Create Portfolio</button>
       </form>
     </div>

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BlogCreate from "./BlogCreate"; // Import BlogCreate component
+import BlogEdit from "./BlogEdit"; // Import BlogEdit component
 import "./styles.css";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [permissions, setPermissions] = useState([]);
+  const [editingBlog, setEditingBlog] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -43,11 +45,19 @@ const BlogList = () => {
     fetchBlogs();
   }, [token]);
 
-  const hasPermission = (permission) => permissions.includes(permission);
+  const hasPermission = (permission) => {
+    console.log("Checking permission:", permission, "User permissions:", permissions);
+    return permissions.includes(permission);
+  };
 
   const handleDelete = async (blogId) => {
     if (!token) {
       alert("Unauthorized! Please login.");
+      return;
+    }
+
+    if (!hasPermission("delete_blog")) {
+      alert("You don't have permission to delete blogs.");
       return;
     }
 
@@ -74,6 +84,60 @@ const BlogList = () => {
     }
   };
 
+  const handleEdit = (blogId) => {
+    if (!hasPermission("update_blog")) {
+      alert("You don't have permission to edit blogs.");
+      return;
+    }
+    const blogToEdit = blogs.find(blog => blog.id === blogId);
+    setEditingBlog(blogToEdit);
+  };
+
+  const handleUpdateBlog = async (updatedBlogData) => {
+    if (!token) {
+      alert("Unauthorized! Please login.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost/estonsoft-api/new.php/blogs/${editingBlog.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify(updatedBlogData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to update blog.");
+      }
+
+      alert("✅ Blog updated successfully!");
+      setEditingBlog(null);
+      // Refresh blogs
+      const fetchBlogs = async () => {
+        try {
+          const response = await fetch("http://localhost/estonsoft-api/new.php/blogs", {
+            headers: {
+              Authorization: token,
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setBlogs(data);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchBlogs();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   return (
     <div className="blog-container">
       <h1 className="heading">Blogs</h1>
@@ -90,6 +154,15 @@ const BlogList = () => {
 
       {/* Show BlogCreate form when toggled */}
       {showCreateForm && <BlogCreate />}
+
+      {/* Show BlogEdit form when editing */}
+      {editingBlog && (
+        <BlogEdit
+          blog={editingBlog}
+          onUpdate={handleUpdateBlog}
+          onCancel={() => setEditingBlog(null)}
+        />
+      )}
 
       {!token ? (
         <p>Please login to view blogs.</p>
@@ -130,7 +203,15 @@ const BlogList = () => {
                 <strong>Tags:</strong> {blog.tags.join(", ")}
               </p>
 
-              <div className="blog-actions">
+              <div className="blog-actions action-buttons">
+                {hasPermission("update_blog") && (
+                  <button
+                    onClick={() => handleEdit(blog.id)}
+                    className="edit-btn"
+                  >
+                    Edit
+                  </button>
+                )}
                 {hasPermission("delete_blog") && (
                   <button
                     onClick={() => handleDelete(blog.id)}

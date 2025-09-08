@@ -1,33 +1,30 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./styles.css";
 
-const BlogCreate = () => {
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const [blog, setBlog] = useState({
-    title: "",
-    image: "",
-    paragraph: "",
-    content: "",
-    authorName: "",
-    authorImage: "",
-    authorDesignation: "",
-    tags: [],
-    publishDate: "",
+const availableTags = [
+  "Tech",
+  "Health",
+  "Education",
+  "Entertainment",
+  "Sports",
+];
+
+const BlogEdit = ({ blog, onUpdate, onCancel }) => {
+  const [formData, setFormData] = useState({
+    title: blog?.title || "",
+    image: blog?.image || "",
+    paragraph: blog?.paragraph || "",
+    content: blog?.content || "",
+    authorName: blog?.authorName || "",
+    authorImage: blog?.authorImage || "",
+    authorDesignation: blog?.authorDesignation || "",
+    tags: blog?.tags || [],
+    publishDate: blog?.publishDate || "",
   });
+
   const [error, setError] = useState("");
 
-  const availableTags = [
-    "Tech",
-    "Health",
-    "Education",
-    "Entertainment",
-    "Sports",
-  ];
-
   const handleChange = (e) => {
-    setBlog({ ...blog, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e) => {
@@ -35,14 +32,25 @@ const BlogCreate = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setBlog({ ...blog, image: reader.result });
+        setFormData({ ...formData, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleAuthorImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, authorImage: reader.result });
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleTagChange = (tag) => {
-    setBlog((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       tags: prev.tags.includes(tag)
         ? prev.tags.filter((t) => t !== tag)
@@ -52,39 +60,23 @@ const BlogCreate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (
-      !blog.title ||
-      !blog.paragraph ||
-      !blog.content ||
-      !blog.authorName ||
-      !blog.authorImage ||
-      !blog.authorDesignation ||
-      !blog.publishDate
+      !formData.title ||
+      !formData.paragraph ||
+      !formData.content ||
+      !formData.authorName ||
+      !formData.authorImage ||
+      !formData.authorDesignation ||
+      !formData.publishDate
     ) {
       setError("All fields are required.");
       return;
     }
 
     try {
-      console.log("Sending blog data:", blog);
-      
-      const response = await fetch("http://localhost/estonsoft-api/new.php/blogs", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-        body: JSON.stringify(blog),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        console.error("Error response:", errorData);
-        throw new Error(`Failed to create blog: ${response.status} - ${errorData}`);
-      }
-
-      alert("✅ Blog Created Successfully!");
-      navigate("/dashboard");
+      await onUpdate(formData);
+      setError("");
     } catch (err) {
       setError(err.message);
     }
@@ -92,7 +84,7 @@ const BlogCreate = () => {
 
   return (
     <div className="form-container">
-      <h2>Create Blog</h2>
+      <h2>Edit Blog</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-field">
@@ -101,7 +93,7 @@ const BlogCreate = () => {
             type="text"
             name="title"
             placeholder="Enter blog title"
-            value={blog.title}
+            value={formData.title}
             onChange={handleChange}
             required
           />
@@ -114,8 +106,12 @@ const BlogCreate = () => {
             name="image"
             accept="image/*"
             onChange={handleFileChange}
-            required
           />
+          {formData.image && (
+            <div className="image-preview">
+              <img src={formData.image} alt="Blog preview" style={{maxWidth: '200px', maxHeight: '200px'}} />
+            </div>
+          )}
         </div>
         
         <div className="form-field">
@@ -123,7 +119,7 @@ const BlogCreate = () => {
           <textarea
             name="paragraph"
             placeholder="Enter a brief description"
-            value={blog.paragraph}
+            value={formData.paragraph}
             onChange={handleChange}
             required
           />
@@ -134,7 +130,7 @@ const BlogCreate = () => {
           <textarea
             name="content"
             placeholder="Enter the complete blog content"
-            value={blog.content}
+            value={formData.content}
             onChange={handleChange}
             required
           />
@@ -146,7 +142,7 @@ const BlogCreate = () => {
             type="text"
             name="authorName"
             placeholder="Enter author's name"
-            value={blog.authorName}
+            value={formData.authorName}
             onChange={handleChange}
             required
           />
@@ -158,7 +154,7 @@ const BlogCreate = () => {
             type="text"
             name="authorDesignation"
             placeholder="Enter author's designation"
-            value={blog.authorDesignation}
+            value={formData.authorDesignation}
             onChange={handleChange}
           />
         </div>
@@ -169,17 +165,13 @@ const BlogCreate = () => {
             type="file"
             name="authorImage"
             accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (file) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  setBlog({ ...blog, authorImage: reader.result });
-                };
-                reader.readAsDataURL(file);
-              }
-            }}
+            onChange={handleAuthorImageChange}
           />
+          {formData.authorImage && (
+            <div className="image-preview">
+              <img src={formData.authorImage} alt="Author preview" style={{maxWidth: '100px', maxHeight: '100px', borderRadius: '50%'}} />
+            </div>
+          )}
         </div>
 
         <div className="form-field">
@@ -187,7 +179,7 @@ const BlogCreate = () => {
           <input
             type="date"
             name="publishDate"
-            value={blog.publishDate}
+            value={formData.publishDate}
             onChange={handleChange}
             required
           />
@@ -205,7 +197,7 @@ const BlogCreate = () => {
                   id={`tag-${tag}`}
                   type="checkbox"
                   value={tag}
-                  checked={blog.tags.includes(tag)}
+                  checked={formData.tags.includes(tag)}
                   onChange={() => handleTagChange(tag)}
                 />
               </div>
@@ -213,12 +205,17 @@ const BlogCreate = () => {
           </div>
         </div>
 
-        <button type="submit" className="submit-btn">
-          Create Blog
-        </button>
+        <div className="form-buttons">
+          <button type="submit" className="submit-btn">
+            Update Blog
+          </button>
+          <button type="button" onClick={onCancel} className="cancel-btn">
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );
 };
 
-export default BlogCreate;
+export default BlogEdit;
