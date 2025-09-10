@@ -39,7 +39,7 @@ const PortfolioCreate = () => {
     try {
       console.log("Sending portfolio data:", portfolio);
       
-      const response = await fetch("https://estonsoft.com/new.php/portfolios", {
+      const response = await fetch("https://estonsoft.com/portfolios", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

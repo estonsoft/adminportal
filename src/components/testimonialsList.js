@@ -29,7 +29,7 @@ const TestimonialsList = () => {
 
     const fetchTestimonials = async () => {
       try {
-        const response = await fetch("https://estonsoft.com/new.php/testimonials", {
+        const response = await fetch("https://estonsoft.com/testimonials", {
           headers: {
             Authorization: token,
           },
@@ -63,7 +63,7 @@ const TestimonialsList = () => {
     }
 
     try {
-      const response = await fetch(`https://estonsoft.com/new.php/testimonials/${testimonialId}`, {
+      const response = await fetch(`https://estonsoft.com/testimonials/${testimonialId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +98,7 @@ const TestimonialsList = () => {
     }
 
     try {
-      const response = await fetch(`https://estonsoft.com/new.php/testimonials/${editingTestimonial.id}`, {
+      const response = await fetch(`https://estonsoft.com/testimonials/${editingTestimonial.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +117,7 @@ const TestimonialsList = () => {
       // Refresh testimonials
       const fetchTestimonials = async () => {
         try {
-          const response = await fetch("https://estonsoft.com/new.php/testimonials", {
+          const response = await fetch("https://estonsoft.com/testimonials", {
             headers: {
               Authorization: token,
             },

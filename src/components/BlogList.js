@@ -63,7 +63,7 @@ const BlogList = () => {
 
     try {
       const response = await fetch(
-        `https://estonsoft.com/new.php/blogs/${blogId}`,
+        `https://estonsoft.com/blogs/${blogId}`,
         {
           method: "DELETE",
           headers: {
@@ -100,7 +100,7 @@ const BlogList = () => {
     }
 
     try {
-      const response = await fetch(`https://estonsoft.com/new.php/blogs/${editingBlog.id}`, {
+      const response = await fetch(`https://estonsoft.com/blogs/${editingBlog.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
