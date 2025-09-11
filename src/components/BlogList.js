@@ -119,7 +119,7 @@ const BlogList = () => {
       // Refresh blogs
       const fetchBlogs = async () => {
         try {
-          const response = await fetch("https://estonsoft.com/new.php/blogs", {
+          const response = await fetch("https://estonsoft.com/blogs", {
             headers: {
               Authorization: token,
             },
