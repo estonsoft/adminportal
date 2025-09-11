@@ -16,7 +16,7 @@ const SignIn = () => {
     setLoading(true);
   
     try {
-      const response = await fetch("http://localhost/new.php/auth/login", {
+      const response = await fetch("https://estonsoft.com/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -53,7 +53,7 @@ const SignIn = () => {
   const fetchUserDetails = async () => {
     try {
       const token = localStorage.getItem("token");
-      const userResponse = await fetch("http://localhost/estonsoft-api/new.php/auth/me", {
+      const userResponse = await fetch("https://estonsoft.com/auth/me", {
         method: "GET",
         headers: {
           "Authorization": token.trim(), 

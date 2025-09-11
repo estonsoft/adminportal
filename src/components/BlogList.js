@@ -25,7 +25,7 @@ const BlogList = () => {
 
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("http://localhost/estonsoft-api/new.php/blogs", {
+        const response = await fetch("https://estonsoft.com/new.php/blogs", {
           headers: {
             Authorization: token,
           },
@@ -63,7 +63,7 @@ const BlogList = () => {
 
     try {
       const response = await fetch(
-        `http://localhost/estonsoft-api/new.php/blogs/${blogId}`,
+        `https://estonsoft.com/blogs/${blogId}`,
         {
           method: "DELETE",
           headers: {
@@ -100,7 +100,7 @@ const BlogList = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost/estonsoft-api/new.php/blogs/${editingBlog.id}`, {
+      const response = await fetch(`https://estonsoft.com/blogs/${editingBlog.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -119,7 +119,7 @@ const BlogList = () => {
       // Refresh blogs
       const fetchBlogs = async () => {
         try {
-          const response = await fetch("http://localhost/estonsoft-api/new.php/blogs", {
+          const response = await fetch("https://estonsoft.com/blogs", {
             headers: {
               Authorization: token,
             },

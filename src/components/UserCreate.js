@@ -54,7 +54,7 @@ const UserCreate = ({ token, fetchUsers, setActiveSection }) => {
     }
 
     try {
-      const response = await fetch("http://localhost/estonsoft-api/new.php/users", {
+      const response = await fetch("https://estonsoft.com/users", {
         method: "POST",
         headers: {
           Authorization: token,

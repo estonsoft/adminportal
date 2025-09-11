@@ -68,7 +68,7 @@ const BlogCreate = () => {
     try {
       console.log("Sending blog data:", blog);
       
-      const response = await fetch("http://localhost/estonsoft-api/new.php/blogs", {
+      const response = await fetch("https://estonsoft.com/blogs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
