@@ -42,7 +42,7 @@ const UserDetails = () => {
       }
 
       try {
-        const response = await fetch(`https://admin.estonsoft.com/users/${userId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/${userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -87,7 +87,7 @@ const UserDetails = () => {
     }
   
     try {
-      const response = await fetch(`https://admin.estonsoft.com/users/${userId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/${userId}`, {
         method: "PUT",
         headers: {
           Authorization: token,

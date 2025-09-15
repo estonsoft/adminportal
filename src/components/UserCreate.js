@@ -54,7 +54,7 @@ const UserCreate = ({ token, fetchUsers, setActiveSection }) => {
     }
 
     try {
-      const response = await fetch("https://estonsoft.com/users", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users`, {
         method: "POST",
         headers: {
           Authorization: token,

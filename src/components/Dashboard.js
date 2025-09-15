@@ -21,6 +21,8 @@ const Dashboard = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+    console.log("API Base URL:", process.env.REACT_APP_API_BASE_URL);
+    
     if (!token) {
       navigate("/");
       return;
@@ -50,7 +52,7 @@ const Dashboard = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://admin.estonsoft.com/users/", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/`, {
         method: "GET",
         headers: {
           Authorization: token,

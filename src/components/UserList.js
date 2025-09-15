@@ -36,7 +36,7 @@ const UserList = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch("https://estonsoft.com/users", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users`, {
         method: "GET",
         headers: {
           Authorization: token,
@@ -71,7 +71,7 @@ const UserList = () => {
     }
 
       try {
-        const response = await fetch(`https://estonsoft.com/users/${userId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/${userId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -107,7 +107,7 @@ const UserList = () => {
     }
 
     try {
-      const response = await fetch(`https://estonsoft.com/users/${editingUser.id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/${editingUser.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

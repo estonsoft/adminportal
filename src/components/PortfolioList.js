@@ -25,7 +25,7 @@ const PortfolioList = () => {
 
     const fetchPortfolios = async () => {
       try {
-        const response = await fetch("https://estonsoft.com/portfolios", {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/portfolios`, {
           headers: {
             Authorization: token,
           },
@@ -61,7 +61,7 @@ const PortfolioList = () => {
     }
 
       try {
-        const response = await fetch(`https://estonsoft.com/portfolios/${portfolioId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/portfolios/${portfolioId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -96,7 +96,7 @@ const PortfolioList = () => {
     }
 
     try {
-      const response = await fetch(`https://estonsoft.com/portfolios/${editingPortfolio.id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/portfolios/${editingPortfolio.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +115,7 @@ const PortfolioList = () => {
       // Refresh portfolios
       const fetchPortfolios = async () => {
         try {
-          const response = await fetch("https://estonsoft.com/portfolios", {
+          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/portfolios`, {
             headers: {
               Authorization: token,
             },

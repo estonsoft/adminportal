@@ -39,7 +39,7 @@ const PortfolioCreate = () => {
     try {
       console.log("Sending portfolio data:", portfolio);
       
-      const response = await fetch("https://estonsoft.com/portfolios", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/portfolios`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

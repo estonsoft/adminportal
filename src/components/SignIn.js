@@ -16,7 +16,7 @@ const SignIn = () => {
     setLoading(true);
   
     try {
-      const response = await fetch("https://estonsoft.com/auth/login", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -53,7 +53,7 @@ const SignIn = () => {
   const fetchUserDetails = async () => {
     try {
       const token = localStorage.getItem("token");
-      const userResponse = await fetch("https://estonsoft.com/auth/me", {
+      const userResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/me`, {
         method: "GET",
         headers: {
           "Authorization": token.trim(), 

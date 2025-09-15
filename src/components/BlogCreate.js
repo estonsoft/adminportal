@@ -68,7 +68,7 @@ const BlogCreate = () => {
     try {
       console.log("Sending blog data:", blog);
       
-      const response = await fetch("https://estonsoft.com/blogs", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/blogs`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

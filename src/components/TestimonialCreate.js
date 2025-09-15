@@ -42,7 +42,7 @@ const TestimonialCreate = () => {
     }
 
     try {
-      const response = await fetch("https://estonsoft.com/testimonials", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/testimonials`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
